@@ -19,4 +19,11 @@
 --------------------------
 
 -all svd calls now done using La.svd() using method "dgesdd"
+-configure.win script added to package
+
+
+2003-03-12 - Version 1.1_3
+--------------------------
+
+-fixed memory leak in function calc_K_JM in file ica.c
 

@@ -1,0 +1,2 @@
+cp -p src/sblas.unused src/sblas.f
+cp -p src/slapack.unused src/slapack.f

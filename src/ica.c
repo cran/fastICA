@@ -649,8 +649,14 @@ calc_K_JM(float *x, int *n, int *p, float *K)
 
     transpose_mat_JM (u, n, n, temp2);
     mmult_JM (temp1, *n, *n, temp2, *n, *n, K);
+
     Free (temp1);
     Free (temp2);
+    Free(xxt);
+    Free(u);
+    Free(d);
+    Free(v);
+
 }
 
 void
