@@ -1,6 +1,6 @@
 Package: fastICA
-Version: 1.1-1
-Date: 2002-01-15
+Version: 1.1-2
+Date: 2002-09-23
 Title: FastICA algorithms to perform ICA and Projection Pursuit
 Author:  J L Marchini <marchini@stats.ox.ac.uk> 
   C Heaton <chrisheaton99@yahoo.com> B D Ripley <ripley@stats.ox.ac.uk>

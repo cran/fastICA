@@ -15,3 +15,8 @@
 -FastICA function replaced by fastICA and takes standard (nxp) data matrix as argument
   
 
+2002-09-23 - Version 1.1_2
+--------------------------
+
+-all svd calls now done using La.svd() using method "dgesdd"
+
