@@ -10,9 +10,9 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
 {
     dd <- dim(X)
     d <- dd[dd != 1]
-    if (length(d) != 2) 
+    if (length(d) != 2)
         stop("data must be matrix-conformal")
-    X <- if (length(d) != length(dd)) 
+    X <- if (length(d) != length(dd))
         matrix(X, d[1], d[2])
     else as.matrix(X)
 
@@ -23,7 +23,7 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
     fun <- match.arg(fun)
     n <- nrow(X)
     p <- ncol(X)
-   
+
     if (n.comp > min(n, p)) {
         cat("n.comp is too large\nn.comp set to", min(n, p), "\n")
         n.comp <- min(n, p)
@@ -36,22 +36,22 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
     }
     if (method == "R") {
         if (verbose) cat("Centering\n")
-       
+
         X <- scale(X, scale = FALSE)
-        
+
         if (row.norm) {
             X <- scale(t(X))
         }
         else {
             X <- t(X)
         }
-       
+
         if (verbose) cat("Whitening\n")
         V <- X %*% t(X)/n
-       
+
         s <- La.svd(V, method="dgesdd")
         D <- diag(c(1/sqrt(s$d)))
-        
+
         K <- D %*% t(s$u)
         K <- matrix(K[1:n.comp, ], n.comp, p)
         X1 <- K %*% X
@@ -86,7 +86,8 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
                 K = single(n.comp * p),
                 W = single(n.comp * n.comp),
                 A = single(p * n.comp),
-                S = single(n.comp * n))
+                S = single(n.comp * n),
+                PACKAGE="fastICA")
         X1 <- t(matrix(a$X, p, n, byrow = TRUE))
         K <- t(matrix(a$K, n.comp, p, byrow = TRUE))
         W <- t(matrix(a$W, n.comp, n.comp, byrow = TRUE))
