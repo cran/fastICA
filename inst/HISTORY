@@ -27,3 +27,9 @@
 
 -fixed memory leak in function calc_K_JM in file ica.c
 
+
+2003-04-04 - Version 1.1_4
+--------------------------
+
+-made code R 1.7.0 compatible
+

@@ -123,7 +123,7 @@ ica.R.def <-
             while (lim[it] > tol && it < maxit) {
                 wx <- t(w) %*% X
                 gwx <- tanh(alpha * wx)
-                gwx <- matrix(gwx, n.comp, p, byrow = T)
+                gwx <- matrix(gwx, n.comp, p, byrow = TRUE)
                 xgwx <- X * gwx
                 v1 <- apply(xgwx, 1, FUN = mean)
                 g.wx <- alpha * (1 - (tanh(alpha * wx))^2)
