@@ -19,14 +19,14 @@ elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
   have_f77_underscore=true
 fi
 if ${have_f77_underscore}; then
-  sgesvd_func=sgesvd_
+  sgesdd_func=sgesdd_
 else
-  sgesvd_func=sgesvd
+  sgesdd_func=sgesdd
 fi
-AC_CHECK_LIB(lapack, ${sgesvd_func},BLAS_LIBS="-llapack ${BLAS_LIBS}", 
+AC_CHECK_LIB(lapack, ${sgesdd_func},BLAS_LIBS="-llapack ${BLAS_LIBS}", 
   NO_LIBLAPACK=1, [${BLAS_LIBS} ${FLIBS}])
 if test ${NO_LIBLAPACK}; then
-  echo "could not find SGESVD in your LAPACK library, using our routines"
+  echo "could not find SGESDD in your LAPACK library, using our routines"
   (cd src; ln -s slapack.unused slapack.f)
 fi
 

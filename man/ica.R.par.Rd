@@ -3,10 +3,10 @@
 \title{R code for FastICA using a parallel scheme}
 \description{R code for FastICA using a parallel scheme in which the
   components are estimated simultaneously. This function is called by the
-  FastICA function.
+  fastICA function.
 }
 \usage{
-ica.R.par(X, n.comp, tol, fun, alpha, maxit, verbose)
+ica.R.par(X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
 }
 \arguments{
   \item{X}{data matrix}
@@ -16,16 +16,21 @@ ica.R.par(X, n.comp, tol, fun, alpha, maxit, verbose)
   \item{fun}{the functional form of the G function used in the
     approximation to negentropy (see details)}
   \item{alpha}{constant in range [1,2] used in approximation to
-    negentropy when \code{fun=="logcosh"}}
+    negentropy when \code{fun == "logcosh"}}
   \item{maxit}{maximum number of iterations to perform}
   \item{verbose}{a logical value indicating the level of output as the
     algorithm runs.}
-}
-\details{See help on FastICA for details.
+  \item{w.init}{Initial value of un-mixing matrix.}
 }
 \value{The estimated un-mixing matrix W (see details)}
-\author{J L Marchini <marchini@stats.ox.ac.uk> and C Heaton <chrisheaton99@yahoo.com>}
 
-\seealso{\code{\link{FastICA}}, \code{\link{ica.R.def}}}
+\details{
+  See help on \code{\link{fastICA}} for details.
+}
+\author{
+  J L Marchini and C Heaton 
+}
+
+\seealso{\code{\link{fastICA}}, \code{\link{ica.R.def}}}
 
 \keyword{utilities}

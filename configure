@@ -541,13 +541,13 @@ elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
   have_f77_underscore=true
 fi
 if ${have_f77_underscore}; then
-  sgesvd_func=sgesvd_
+  sgesdd_func=sgesdd_
 else
-  sgesvd_func=sgesvd
+  sgesdd_func=sgesdd
 fi
-echo $ac_n "checking for ${sgesvd_func} in -llapack""... $ac_c" 1>&6
-echo "configure:550: checking for ${sgesvd_func} in -llapack" >&5
-ac_lib_var=`echo lapack'_'${sgesvd_func} | sed 'y%./+-%__p_%'`
+echo $ac_n "checking for ${sgesdd_func} in -llapack""... $ac_c" 1>&6
+echo "configure:550: checking for ${sgesdd_func} in -llapack" >&5
+ac_lib_var=`echo lapack'_'${sgesdd_func} | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -559,10 +559,10 @@ cat > conftest.$ac_ext <<EOF
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
     builtin and then its argument prototype would still apply.  */
-char ${sgesvd_func}();
+char ${sgesdd_func}();
 
 int main() {
-${sgesvd_func}()
+${sgesdd_func}()
 ; return 0; }
 EOF
 if { (eval echo configure:569: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
@@ -587,7 +587,7 @@ NO_LIBLAPACK=1
 fi
 
 if test ${NO_LIBLAPACK}; then
-  echo "could not find SGESVD in your LAPACK library, using our routines"
+  echo "could not find SGESDD in your LAPACK library, using our routines"
   (cd src; ln -s slapack.unused slapack.f)
 fi
 

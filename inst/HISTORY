@@ -1,4 +1,17 @@
-29/08/2001 - Version 1.0-1
+2001-08-29 - Version 1.0-1
 --------------------------
 
-Cleaned up the help files a bit
+-Cleaned up the help files a bit
+
+
+2002-01-15 - Version 1.1_1
+--------------------------
+
+** Changes suggested by B D Ripley **
+
+-changed to Lapack SGESDD routine and calculate optimal workspace to increase speed
+-better error checking within the C code
+-more transparent C code
+-FastICA function replaced by fastICA and takes standard (nxp) data matrix as argument
+  
+
