@@ -8,10 +8,11 @@ fi
 CC=`${R_HOME}/bin/R CMD config CC`
 CFLAGS=`${R_HOME}/bin/R CMD config CFLAGS`
 FLIBS=`${R_HOME}/bin/R CMD config FLIBS`
-LIBS=`grep "^LIBS" ${R_HOME}/etc/Makeconf | sed "s/^LIBS *= *//"`
-LIBS0=${LIBS}
 BLAS_LIBS=`${R_HOME}/bin/R CMD config BLAS_LIBS`
 LAPACK_LIBS=`${R_HOME}/bin/R CMD config LAPACK_LIBS`
+
+# dummy
+AC_CHECK_HEADERS(math.h)
 
 if test -n "`grep HAVE_F77_UNDERSCORE ${R_HOME}/include/Rconfig.h | \
              grep '#define'`"; then
@@ -23,32 +24,37 @@ if ${have_f77_underscore}; then
   scopy_func=scopy_
   lsame_func=lsame_
   sgesdd_func=sgesdd_
+  xerbla=xerbla_
 else
   scopy_func=scopy
   lsame_func=lsame
   sgesdd_func=sgesdd
+  xerbla=xerbla
 fi
 
 if test -z "${BLAS_LIBS}"; then
-  echo "it seems you are not using a BLAS library: using our BLAS routines"
+  echo "it seems you are not using a BLAS library: using our BLAS and LAPACK routines"
   (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f)
 else
-  LIBS="${BLAS_LIBS} ${FLIBS} ${LIBS}"
-  AC_CHECK_FUNC(${scopy_func}, , NO_SBLAS=1)
-  if test ${NO_SBLAS}; then
-    echo "could not find SCOPY in your BLAS library, using our BLAS routines"
+  LIBS="${BLAS_LIBS} ${FLIBS}"
+  AC_MSG_CHECKING([for scopy in ${BLAS_LIBS}])
+  AC_TRY_LINK([void ${xerbla}(char *srname, int *info){}], ${scopy_func}(),
+      [blas_ok=yes], [blas_ok=no])
+  AC_MSG_RESULT([${blas_ok}])
+  if test "${blas_ok}" = no; then
+    AC_MSG_WARN([could not find scopy in your BLAS library, using our BLAS and LAPACK routines])
     (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f)
   else
-    LIBS="${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS} ${LIBS0}"
+    LIBS="${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}"
     AC_CHECK_FUNC(${sgesdd_func}, BLAS_LIBS="${LAPACK_LIBS} ${BLAS_LIBS}", 
                   NO_LIBLAPACK=1)
     if test ${NO_LIBLAPACK}; then
-      echo "could not find SGESDD: using our LAPACK routines"
+      AC_MSG_WARN([could not find sgesdd: using our LAPACK routines])
       (cd src; ln -s slapack.unused slapack.f)
     fi
     AC_CHECK_FUNC(${lsame_func}, , NO_LSAME=1)
     if test ${NO_LSAME}; then
-      echo "could not find LSAME in your BLAS or LAPACK library, using our copy"
+      AC_MSG_WARN([could not find lsame in your BLAS or LAPACK library, using our copy])
       (cd src; ln -s lsame.unused lsame.f)
     fi
   fi
