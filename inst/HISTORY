@@ -43,3 +43,14 @@
 --------------------------
 
 - implemented Brian's changes 
+
+2006-05-12 - Version 1.1-7
+--------------------------
+
+- implemented change to fastICA function scaling 
+
+2006-05-16 - Version 1.1-8
+--------------------------
+
+- Brian made changes to separate out slamc.f and ensure it is compiled
+without optimization

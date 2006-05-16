@@ -40,7 +40,7 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
         X <- scale(X, scale = FALSE)
 
         if (row.norm) {
-            X <- scale(t(X))
+            X<-t(scale(X,scale=row.norm)) 
         }
         else {
             X <- t(X)
@@ -49,7 +49,7 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
         if (verbose) cat("Whitening\n")
         V <- X %*% t(X)/n
 
-        s <- La.svd(V, method="dgesdd")
+        s <- La.svd(V)
         D <- diag(c(1/sqrt(s$d)))
 
         K <- D %*% t(s$u)
@@ -186,7 +186,7 @@ ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
     n <- nrow(X)
     p <- ncol(X)
     W <- w.init
-    sW <- La.svd(W, method = "dgesdd")
+    sW <- La.svd(W)
     W <- sW$u %*% diag(1/sW$d) %*% t(sW$u) %*% W
     W1 <- W
     lim <- rep(1000, maxit)
@@ -200,7 +200,7 @@ ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
             g.wx <- alpha * (1 - (gwx)^2)
             v2 <- diag(apply(g.wx, 1, FUN = mean)) %*% W
             W1 <- v1 - v2
-            sW1 <- La.svd(W1, method = "dgesdd")
+            sW1 <- La.svd(W1)
             W1 <- sW1$u %*% diag(1/sW1$d) %*% t(sW1$u) %*% W1
             lim[it + 1] <- max(Mod(Mod(diag(W1 %*% t(W))) - 1))
             W <- W1
@@ -218,7 +218,7 @@ ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
             g.wx <- (1 - wx^2) * exp(-(wx^2)/2)
             v2 <- diag(apply(g.wx, 1, FUN = mean)) %*% W
             W1 <- v1 - v2
-            sW1 <- La.svd(W1, method = "dgesdd")
+            sW1 <- La.svd(W1)
             W1 <- sW1$u %*% diag(1/sW1$d) %*% t(sW1$u) %*% W1
             lim[it + 1] <- max(Mod(Mod(diag(W1 %*% t(W))) - 1))
             W <- W1

@@ -1,3 +1,4 @@
 cp -p src/sblas.unused src/sblas.f
 cp -p src/slapack.unused src/slapack.f
 cp -p src/lsame.unused src/lsame.f
+cp -p src/slamc.unused src/slamc.f

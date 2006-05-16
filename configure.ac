@@ -34,7 +34,7 @@ fi
 
 if test -z "${BLAS_LIBS}"; then
   echo "it seems you are not using a BLAS library: using our BLAS and LAPACK routines"
-  (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f)
+  (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
 else
   LIBS="${BLAS_LIBS} ${FLIBS}"
   AC_MSG_CHECKING([for scopy in ${BLAS_LIBS}])
@@ -43,14 +43,14 @@ else
   AC_MSG_RESULT([${blas_ok}])
   if test "${blas_ok}" = no; then
     AC_MSG_WARN([could not find scopy in your BLAS library, using our BLAS and LAPACK routines])
-    (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f)
+    (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
   else
     LIBS="${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}"
     AC_CHECK_FUNC(${sgesdd_func}, BLAS_LIBS="${LAPACK_LIBS} ${BLAS_LIBS}", 
                   NO_LIBLAPACK=1)
     if test ${NO_LIBLAPACK}; then
       AC_MSG_WARN([could not find sgesdd: using our LAPACK routines])
-      (cd src; ln -s slapack.unused slapack.f)
+      (cd src; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
     fi
     AC_CHECK_FUNC(${lsame_func}, , NO_LSAME=1)
     if test ${NO_LSAME}; then
