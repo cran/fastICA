@@ -6,9 +6,6 @@ This file explains how to install the R package fastICA. I assume
 that you have a basic knowledge of UNIX/LINUX and that you already
 have R installed on your machine.
 
-If you have any problems/suggestions using this package, please email
-me on marchini@stats.ox.ac.uk
-
 INSTALLATION
 
 1. Download the g-zipped tar archive  fastICA_*.*-*.tar.gz
@@ -47,7 +44,7 @@ ica.R.par - R code for FastICA using a parallel scheme
 PROBLEMS/SUGGESTIONS
 
 If you have any problems/suggestions using this package, please email
-me on marchini@stats.ox.ac.uk
+ripley@stats.ox.ac.uk
 
 
 

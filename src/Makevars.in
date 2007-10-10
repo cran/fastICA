@@ -2,7 +2,7 @@ PKG_LIBS = @BLAS_LIBS@
 
 SLAMC_FFLAGS=$(R_XTRA_FFLAGS) $(PKG_FFLAGS) $(FPICFLAGS) $(SHLIB_FFLAGS) $(SAFE_FFLAGS)
 
-all: fastICA.so
+all: $(SHLIB)
 
 slamc.o: slamc.f
-	$(F77) $(SLAMC_FFLAGS) -c $< -o $@
+	$(F77) $(SLAMC_FFLAGS) -c -o slamc.o slamc.f

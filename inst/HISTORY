@@ -54,3 +54,10 @@
 
 - Brian made changes to separate out slamc.f and ensure it is compiled
 without optimization
+
+2007-10-10 - Version 1.1-9
+--------------------------
+
+- Changes need to avoid looping on 2.6.0 under Windows.
+- Add NAMESPACE
+- BDR takes over as maintainer.

@@ -911,3 +911,17 @@ icainc_JM (float *data_matrix, float *w_matrix, int *nn, int *pp, int *ee,
     
 }
 
+#include <R_ext/Rdynload.h>
+
+static const R_CMethodDef CEntries[] = {
+    {"icainc_JM", (DL_FUNC) &icainc_JM, 18},
+   {NULL, NULL, 0}
+};
+
+
+void
+R_init_fastICA(DllInfo *dll)
+{
+    R_registerRoutines(dll, CEntries, NULL, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
