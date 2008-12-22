@@ -1,6 +1,3 @@
-
-
-
 fastICA <-
 function (X, n.comp, alg.typ = c("parallel","deflation"),
           fun = c("logcosh", "exp"),
@@ -25,28 +22,23 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
     p <- ncol(X)
 
     if (n.comp > min(n, p)) {
-        cat("n.comp is too large\nn.comp set to", min(n, p), "\n")
+        message("'n.comp' is too large: reset to ", min(n, p))
         n.comp <- min(n, p)
     }
-    if(is.null(w.init)) {
+    if(is.null(w.init))
         w.init <- matrix(rnorm(n.comp^2),n.comp,n.comp)
-    }
     else {
-        if(!is.matrix(w.init) || length(w.init) != (n.comp^2)) stop("w.init is not a matrix or is the wrong size")
+        if(!is.matrix(w.init) || length(w.init) != (n.comp^2))
+            stop("w.init is not a matrix or is the wrong size")
     }
     if (method == "R") {
-        if (verbose) cat("Centering\n")
+        if (verbose) message("Centering")
 
         X <- scale(X, scale = FALSE)
 
-        if (row.norm) {
-            X<-t(scale(X,scale=row.norm)) 
-        }
-        else {
-            X <- t(X)
-        }
+        X <- if (row.norm) t(scale(X, scale=row.norm)) else t(X)
 
-        if (verbose) cat("Whitening\n")
+        if (verbose) message("Whitening")
         V <- X %*% t(X)/n
 
         s <- La.svd(V)
@@ -100,13 +92,15 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
 ica.R.def <-
     function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
 {
-        if (verbose && fun == "logcosh") cat("Deflation FastICA using logcosh approx. to neg-entropy function\n")
-        if (verbose && fun =="exp") cat("Deflation FastICA using exponential approx. to neg-entropy function\n")
+    if (verbose && fun == "logcosh")
+        message("Deflation FastICA using logcosh approx. to neg-entropy function")
+    if (verbose && fun =="exp")
+        message("Deflation FastICA using exponential approx. to neg-entropy function")
     n <- nrow(X)
     p <- ncol(X)
     W <- matrix(0, n.comp, n.comp)
     for (i in 1:n.comp) {
-        if (verbose) cat("Component", i, "\n")
+        if (verbose) message("Component ", i)
         w <- matrix(w.init[i,], n.comp, 1)
         if (i > 1) {
             t <- w
@@ -144,7 +138,7 @@ ica.R.def <-
                 w1 <- w1/sqrt(sum(w1^2))
                 lim[it] <- Mod(Mod(sum((w1 * w))) - 1)
                 if (verbose)
-                    cat("Iteration", it - 1, "tol =", format(lim[it]), "\n")
+                    message("Iteration ", it - 1, " tol = ", format(lim[it]))
                 w <- matrix(w1, n.comp, 1)
             }
         }
@@ -172,7 +166,7 @@ ica.R.def <-
                 w1 <- w1/sqrt(sum(w1^2))
                 lim[it] <- Mod(Mod(sum((w1 * w))) - 1)
                 if (verbose)
-                    cat("Iteration", it - 1, "tol =", format(lim[it]), "\n")
+                    message("Iteration ", it - 1, " tol = ", format(lim[it]))
                 w <- matrix(w1, n.comp, 1)
             }
         }
@@ -183,47 +177,50 @@ ica.R.def <-
 
 ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
 {
+    Diag <- function(d) if(length(d) > 1L) diag(d) else as.matrix(d)
     n <- nrow(X)
     p <- ncol(X)
     W <- w.init
     sW <- La.svd(W)
-    W <- sW$u %*% diag(1/sW$d) %*% t(sW$u) %*% W
+    W <- sW$u %*% Diag(1/sW$d) %*% t(sW$u) %*% W
     W1 <- W
     lim <- rep(1000, maxit)
     it <- 1
     if (fun == "logcosh") {
-    if (verbose) cat("Symmetric FastICA using logcosh approx. to neg-entropy function\n")
+        if (verbose)
+            message("Symmetric FastICA using logcosh approx. to neg-entropy function")
         while (lim[it] > tol && it < maxit) {
             wx <- W %*% X
             gwx <- tanh(alpha * wx)
             v1 <- gwx %*% t(X)/p
             g.wx <- alpha * (1 - (gwx)^2)
-            v2 <- diag(apply(g.wx, 1, FUN = mean)) %*% W
+            v2 <- Diag(apply(g.wx, 1, FUN = mean)) %*% W
             W1 <- v1 - v2
             sW1 <- La.svd(W1)
-            W1 <- sW1$u %*% diag(1/sW1$d) %*% t(sW1$u) %*% W1
+            W1 <- sW1$u %*% Diag(1/sW1$d) %*% t(sW1$u) %*% W1
             lim[it + 1] <- max(Mod(Mod(diag(W1 %*% t(W))) - 1))
             W <- W1
             if (verbose)
-                cat("Iteration", it, "tol =", format(lim[it + 1]), "\n")
+                message("Iteration ", it, " tol = ", format(lim[it + 1]))
             it <- it + 1
         }
     }
     if (fun == "exp") {
-    if (verbose) cat("Symmetric FastICA using exponential approx. to neg-entropy function\n")
+        if (verbose)
+            message("Symmetric FastICA using exponential approx. to neg-entropy function")
         while (lim[it] > tol && it < maxit) {
             wx <- W %*% X
             gwx <- wx * exp(-(wx^2)/2)
             v1 <- gwx %*% t(X)/p
             g.wx <- (1 - wx^2) * exp(-(wx^2)/2)
-            v2 <- diag(apply(g.wx, 1, FUN = mean)) %*% W
+            v2 <- Diag(apply(g.wx, 1, FUN = mean)) %*% W
             W1 <- v1 - v2
             sW1 <- La.svd(W1)
-            W1 <- sW1$u %*% diag(1/sW1$d) %*% t(sW1$u) %*% W1
+            W1 <- sW1$u %*% Diag(1/sW1$d) %*% t(sW1$u) %*% W1
             lim[it + 1] <- max(Mod(Mod(diag(W1 %*% t(W))) - 1))
             W <- W1
             if (verbose)
-                cat("Iteration", it, "tol =", format(lim[it + 1]), "\n")
+                message("Iteration ", it, " tol = ", format(lim[it + 1]))
             it <- it + 1
         }
     }
