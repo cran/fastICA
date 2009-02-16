@@ -124,7 +124,7 @@ A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
 X <- S\%*\%A
 
 a <- fastICA(X, 2, alg.typ = "parallel", fun = "logcosh", alpha = 1, 
-	     method = "C", row.norm = FALSE, maxit = 200, 
+             method = "C", row.norm = FALSE, maxit = 200, 
              tol = 0.0001, verbose = TRUE)
 
 par(mfrow = c(1, 3))
@@ -166,7 +166,7 @@ x1 <- mvrnorm(n = 1000, mu = c(-1, 2), Sigma = matrix(c(10, 3, 3, 1), 2, 2))
 X <- rbind(x, x1)
 
 a <- fastICA(X, 2, alg.typ = "deflation", fun = "logcosh", alpha = 1,
-	     method = "R", row.norm = FALSE, maxit = 200, 
+             method = "R", row.norm = FALSE, maxit = 200, 
              tol = 0.0001, verbose = TRUE)
 
 par(mfrow = c(1, 3))
