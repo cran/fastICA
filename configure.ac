@@ -5,19 +5,19 @@ if test -z "${R_HOME}"; then
   exit 1
 fi
 
-CC=`${R_HOME}/bin/R CMD config CC`
-CFLAGS=`${R_HOME}/bin/R CMD config CFLAGS`
-FLIBS=`${R_HOME}/bin/R CMD config FLIBS`
-BLAS_LIBS=`${R_HOME}/bin/R CMD config BLAS_LIBS`
-LAPACK_LIBS=`${R_HOME}/bin/R CMD config LAPACK_LIBS`
+CC=`"${R_HOME}/bin/R" CMD config CC`
+CFLAGS=`"${R_HOME}/bin/R" CMD config CFLAGS`
+FLIBS=`"${R_HOME}/bin/R" CMD config FLIBS`
+BLAS_LIBS=`"${R_HOME}/bin/R" CMD config BLAS_LIBS`
+LAPACK_LIBS=`"${R_HOME}/bin/R" CMD config LAPACK_LIBS`
 
 # dummy
 AC_CHECK_HEADERS(math.h)
 
-if test -n "`grep HAVE_F77_UNDERSCORE ${R_HOME}/include/Rconfig.h | \
+if test -n "`grep HAVE_F77_UNDERSCORE ${R_HOME}/include${R_ARCH}/Rconfig.h | \
              grep '#define'`"; then
   have_f77_underscore=true
-elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
+elif test -n "`grep F77 ${R_HOME}/include${R_ARCH}/Rconfig.h | grep '_$'`"; then
   have_f77_underscore=true
 fi
 if ${have_f77_underscore}; then

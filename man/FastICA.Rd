@@ -3,7 +3,7 @@
 \title{FastICA algorithm}
 \description{
   This is an R and C code implementation of the FastICA algorithm
-  of Aapo Hyvarinen et al. (\url{http://www.cis.hut.fi/aapo/}) to
+  of Aapo Hyvarinen et al. (\url{http://www.cs.helsinki.fi/u/ahyvarin/}) to
   perform Independent Component Analysis (ICA) and Projection Pursuit.
 }
 \usage{
@@ -13,69 +13,70 @@ fastICA(X, n.comp, alg.typ = c("parallel","deflation"),
         w.init = NULL)
 }
 \arguments{
-  \item{X}{a data matrix with n rows representing observations and p columns representing variables.}
+  \item{X}{a data matrix with \code{n} rows representing observations
+    and \code{p} columns representing variables.}
   \item{n.comp}{number of components to be extracted}
   \item{alg.typ}{if \code{alg.typ == "parallel"} the components are extracted
     simultaneously (the default). if \code{alg.typ == "deflation"} the
-    components are extracted one at a time.
-    }
-  \item{fun}{the functional form of the G function used in the
-    approximation to neg-entropy (see details)}
+    components are extracted one at a time.}
+  \item{fun}{the functional form of the \eqn{G} function used in the
+    approximation to neg-entropy (see \sQuote{details}).}
   \item{alpha}{constant in range [1, 2] used in approximation to
     neg-entropy when \code{fun == "logcosh"}}
   \item{method}{if \code{method == "R"} then computations are done
-    exclusively in R (default). The code allows the interested R user to
+    exclusively in \R (default). The code allows the interested \R user to
     see exactly what the algorithm does.
     if \code{method == "C"} then C code is used to perform most of the
-    computations, which makes the algorithm run faster. During
+    computations, which makes the algorithm run faster.  During
     compilation the C code is linked to an optimized BLAS library if
     present, otherwise stand-alone BLAS routines are compiled.}
   \item{row.norm}{a logical value indicating whether rows of the data
   matrix \code{X} should be standardized beforehand.}
-  \item{maxit}{maximum number of iterations to perform}
+  \item{maxit}{maximum number of iterations to perform.}
   \item{tol}{a positive scalar giving the tolerance at which the
     un-mixing matrix is considered to have converged.}
   \item{verbose}{a logical value indicating the level of output as the
     algorithm runs.}
   \item{w.init}{Initial un-mixing matrix of dimension
-    (n.comp,n.comp). If NULL (default) then a matrix of normal r.v.'s is
-  used.}
+    \code{c(n.comp, n.comp)}. If \code{NULL} (default) then a matrix of
+    normal r.v.'s is used.}
 }
 \details{
   \bold{Independent Component Analysis (ICA)}
   
   The data matrix X is considered to be a linear combination of
   non-Gaussian (independent) components i.e. X = SA where columns of S
-  contain the independent components and A is a linear mixing
-  matrix. In short ICA attempts to `un-mix' the data by estimating an
+  contain the independent components and A is a linear mixing matrix. In
+  short ICA attempts to \sQuote{un-mix} the data by estimating an
   un-mixing matrix W where XW = S.
 
-  Under this generative model the measured `signals' in X will tend to
-  be `more Gaussian' than the source components (in S) due to the Central
-  Limit Theorem. Thus, in order to extract the independent
-  components/sources we search for an un-mixing matrix W that
-  maximizes the non-gaussianity of the sources.
+  Under this generative model the measured \sQuote{signals} in X will
+  tend to be `more Gaussian' than the source components (in S) due to
+  the Central Limit Theorem. Thus, in order to extract the independent
+  components/sources we search for an un-mixing matrix W that maximizes
+  the non-gaussianity of the sources.
 
   In FastICA, non-gaussianity is measured using approximations to
-  neg-entropy (J) which are more robust than kurtosis based measures and fast
-  to compute.
+  neg-entropy (\eqn{J}) which are more robust than kurtosis-based
+  measures and fast to compute.
 
   The approximation takes the form
-
-  \eqn{J(y)=[E\{G(y)\}-E\{G(v)\}]^2} where \eqn{v} is a N(0,1) r.v.
+  \deqn{J(y) = [E\{G(y)\}-E\{G(v)\}]^2}{J(y) = [E G(y) - E G(v)]^2}
+  where \eqn{v} is a N(0,1) r.v.
   
   The following choices of G are included as options
-  \eqn{G(u)=\frac{1}{\alpha} \log \cosh (\alpha u)}
-  and \eqn{G(u)=-\exp(\frac{-u^2}{2})}
+  \eqn{G(u)=\frac{1}{\alpha} \log \cosh (\alpha u)}{G(u) = 1/alpha log cosh (alpha u)}
+  and \eqn{G(u)=-\exp(u^2/2)}{G(u) = -exp(-u^2/2)}.
 
   \bold{Algorithm}
   
-  First, the data is centered by subtracting the mean of each column of the
+  First, the data are centered by subtracting the mean of each column of the
   data matrix X.
 
-  The data matrix is then `whitened' by projecting the data onto it's
-  principle component directions i.e. X -> XK where K is a pre-whitening
-  matrix. The number of components can be specified by the user.
+  The data matrix is then \sQuote{whitened} by projecting the data onto
+  its principal component directions i.e. X -> XK where K is a
+  pre-whitening matrix. The number of components can be specified by the
+  user.
 
   The ICA algorithm then estimates a matrix W s.t XKW = S . W is chosen to
   maximize the neg-entropy approximation under the constraints that W is
@@ -96,7 +97,7 @@ fastICA(X, n.comp, alg.typ = c("parallel","deflation"),
 }
 \value{A list containing the following components
   \item{X}{pre-processed data matrix}
-  \item{K}{pre-whitening matrix that projects data onto th first n.comp
+  \item{K}{pre-whitening matrix that projects data onto the first \code{n.comp}
     principal components.}
   \item{W}{estimated un-mixing matrix (see definition in details)}
   \item{A}{estimated mixing matrix}

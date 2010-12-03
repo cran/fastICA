@@ -80,12 +80,12 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
                 A = single(p * n.comp),
                 S = single(n.comp * n),
                 PACKAGE="fastICA")
-        X1 <- t(matrix(a$X, p, n, byrow = TRUE))
-        K <- t(matrix(a$K, n.comp, p, byrow = TRUE))
-        W <- t(matrix(a$W, n.comp, n.comp, byrow = TRUE))
-        A <- t(matrix(a$A, p, n.comp, byrow = TRUE))
-        S <- t(matrix(a$S, n.comp, n, byrow = TRUE))
-        return(list(X = X1, K = K, W = W, A = A, S = S))
+        X1 <- matrix(a$X, n, p)
+        K <- matrix(a$K, p, n.comp)
+        W <- matrix(a$W, n.comp, n.comp)
+        A <- matrix(a$A, n.comp, p)
+        S <- matrix(a$S, n, n.comp)
+        list(X = X1, K = K, W = W, A = A, S = S)
     }
 }
 
