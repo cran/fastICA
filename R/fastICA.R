@@ -6,11 +6,10 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
           verbose = FALSE, w.init=NULL)
 {
     dd <- dim(X)
-    d <- dd[dd != 1]
-    if (length(d) != 2)
+    d <- dd[dd != 1L]
+    if (length(d) != 2L)
         stop("data must be matrix-conformal")
-    X <- if (length(d) != length(dd))
-        matrix(X, d[1], d[2])
+    X <- if (length(d) != length(dd)) matrix(X, d[1L], d[2L])
     else as.matrix(X)
 
     if (alpha < 1 || alpha > 2)
@@ -58,7 +57,7 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
         w <- a %*% K
         S <- w %*% X
         A <- t(w) %*% solve(w %*% t(w))
-        return(list(X = t(X), K = t(K), W = t(a), A = t(A), S = t(S)))
+        return(list(X = t(X), K = t(K), W = t(w), A = t(A), S = t(S)))
     } else if (method == "C") {
         a <- .C("icainc_JM",
                 as.single(X),
@@ -69,7 +68,7 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
                 as.single(alpha),
                 as.integer(1),
                 as.integer(row.norm),
-                as.integer(1 + (fun == "exp")),
+                as.integer(1L + (fun == "exp")),
                 as.integer(maxit),
                 as.single(tol),
                 as.integer(alg.typ != "parallel"),
@@ -172,7 +171,7 @@ ica.R.def <-
         }
         W[i, ] <- w
     }
-    return(W)
+    W
 }
 
 ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
@@ -224,5 +223,5 @@ ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
             it <- it + 1
         }
     }
-    return(W)
+    W
 }
