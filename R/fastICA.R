@@ -57,7 +57,7 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
         w <- a %*% K
         S <- w %*% X
         A <- t(w) %*% solve(w %*% t(w))
-        return(list(X = t(X), K = t(K), W = t(w), A = t(A), S = t(S)))
+        return(list(X = t(X), K = t(K), W = t(a), A = t(A), S = t(S)))
     } else if (method == "C") {
         a <- .C("icainc_JM",
                 as.single(X),
