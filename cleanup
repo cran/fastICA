@@ -1,3 +1,0 @@
-#! /bin/sh
-rm -f config.* src/Makevars src/sblas.f src/slapack.f src/lsame.f src/slamc.f
-

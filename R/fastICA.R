@@ -46,39 +46,36 @@ function (X, n.comp, alg.typ = c("parallel","deflation"),
         K <- D %*% t(s$u)
         K <- matrix(K[1:n.comp, ], n.comp, p)
         X1 <- K %*% X
-        if (alg.typ == "deflation") {
-            a <- ica.R.def(X1, n.comp, tol = tol, fun = fun,
-                           alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
-        }
-        else if (alg.typ == "parallel") {
-            a <- ica.R.par(X1, n.comp, tol = tol, fun = fun,
-                           alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
-        }
+        a <- if (alg.typ == "deflation")
+            ica.R.def(X1, n.comp, tol = tol, fun = fun,
+                      alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
+        else if (alg.typ == "parallel")
+            ica.R.par(X1, n.comp, tol = tol, fun = fun,
+                      alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
         w <- a %*% K
         S <- w %*% X
         A <- t(w) %*% solve(w %*% t(w))
         return(list(X = t(X), K = t(K), W = t(a), A = t(A), S = t(S)))
     } else if (method == "C") {
-        a <- .C("icainc_JM",
-                as.single(X),
-                as.single(w.init),
+        a <- .C(icainc_JM,
+                as.double(X),
+                as.double(w.init),
                 as.integer(p),
                 as.integer(n),
                 as.integer(n.comp),
-                as.single(alpha),
+                as.double(alpha),
                 as.integer(1),
                 as.integer(row.norm),
                 as.integer(1L + (fun == "exp")),
                 as.integer(maxit),
-                as.single(tol),
+                as.double(tol),
                 as.integer(alg.typ != "parallel"),
                 as.integer(verbose),
-                X = single(p * n),
-                K = single(n.comp * p),
-                W = single(n.comp * n.comp),
-                A = single(p * n.comp),
-                S = single(n.comp * n),
-                PACKAGE="fastICA")
+                X = double(p * n),
+                K = double(n.comp * p),
+                W = double(n.comp * n.comp),
+                A = double(p * n.comp),
+                S = double(n.comp * n))
         X1 <- matrix(a$X, n, p)
         K <- matrix(a$K, p, n.comp)
         W <- matrix(a$W, n.comp, n.comp)

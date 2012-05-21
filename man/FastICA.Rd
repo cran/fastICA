@@ -122,7 +122,7 @@ fastICA(X, n.comp, alg.typ = c("parallel","deflation"),
 
 S <- matrix(runif(10000), 5000, 2)
 A <- matrix(c(1, 1, -1, 3), 2, 2, byrow = TRUE)
-X <- S\%*\%A
+X <- S \%*\% A
 
 a <- fastICA(X, 2, alg.typ = "parallel", fun = "logcosh", alpha = 1, 
              method = "C", row.norm = FALSE, maxit = 200, 
@@ -130,7 +130,7 @@ a <- fastICA(X, 2, alg.typ = "parallel", fun = "logcosh", alpha = 1,
 
 par(mfrow = c(1, 3))
 plot(a$X, main = "Pre-processed data")
-plot(a$X\%*\%a$K, main = "PCA components")
+plot(a$X \%*\% a$K, main = "PCA components")
 plot(a$S, main = "ICA components")
 
 #--------------------------------------------
@@ -139,7 +139,7 @@ plot(a$S, main = "ICA components")
 
 S <- cbind(sin((1:1000)/20), rep((((1:200)-100)/100), 5))
 A <- matrix(c(0.291, 0.6557, -0.5439, 0.5572), 2, 2)
-X <- S\%*\%A
+X <- S \%*\% A
 
 a <- fastICA(X, 2, alg.typ = "parallel", fun = "logcosh", alpha = 1, 
              method = "R", row.norm = FALSE, maxit = 200, 
@@ -172,7 +172,7 @@ a <- fastICA(X, 2, alg.typ = "deflation", fun = "logcosh", alpha = 1,
 
 par(mfrow = c(1, 3))
 plot(a$X, main = "Pre-processed data")
-plot(a$X\%*\%a$K, main = "PCA components")
+plot(a$X \%*\% a$K, main = "PCA components")
 plot(a$S, main = "ICA components")
 }
 }

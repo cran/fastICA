@@ -1,4 +1,0 @@
-all: $(SHLIB)
-
-slamc.o: slamc.f
-	$(F77) $(SAFE_FFLAGS) -c -o slamc.o slamc.f
