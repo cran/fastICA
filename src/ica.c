@@ -1,7 +1,9 @@
+#include <stddef.h>
 #include <R.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 static int min_JM (int *, int *);
 static int max_JM (int *, int *);

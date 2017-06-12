@@ -92,7 +92,6 @@ ica.R.def <-
         message("Deflation FastICA using logcosh approx. to neg-entropy function")
     if (verbose && fun =="exp")
         message("Deflation FastICA using exponential approx. to neg-entropy function")
-    n <- nrow(X)
     p <- ncol(X)
     W <- matrix(0, n.comp, n.comp)
     for (i in 1:n.comp) {
@@ -174,7 +173,6 @@ ica.R.def <-
 ica.R.par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init)
 {
     Diag <- function(d) if(length(d) > 1L) diag(d) else as.matrix(d)
-    n <- nrow(X)
     p <- ncol(X)
     W <- w.init
     sW <- La.svd(W)
