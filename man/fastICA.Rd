@@ -3,7 +3,7 @@
 \title{FastICA algorithm}
 \description{
   This is an R and C code implementation of the FastICA algorithm
-  of Aapo Hyvarinen et al. (\url{http://www.cs.helsinki.fi/u/ahyvarin/}) to
+  of Aapo Hyvarinen et al. (\url{https://www.cs.helsinki.fi/u/ahyvarin/}) to
   perform Independent Component Analysis (ICA) and Projection Pursuit.
 }
 \usage{

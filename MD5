@@ -1,12 +1,12 @@
-6c752e7f3a853bad90be3d19e2024ce8 *DESCRIPTION
+e1c4e23d7f8496dee55271187b514dd6 *DESCRIPTION
 42f8cf9076b983c5611fc628f614a114 *NAMESPACE
 066745157170b756421854be7fbabb10 *R/fastICA.R
 40621dbca246a248256ae059e627a613 *inst/HISTORY
 3337902acc88f55c46cc1dc68be752ef *inst/README
-be438fa6cf3cbc59a652739d24e97ff4 *man/fastICA.Rd
+e2e9a06c7266d7de120f4644c0c07cdf *man/fastICA.Rd
 6af3bdac63e29da7ca67a0b8a520a74f *man/ica.R.def.Rd
 e4cfec0c6d0723b8f7f70436baeae932 *man/ica.R.par.Rd
 2a6f9e9e044a78154d3cfda5936d6f48 *src/Makevars
 ec2c3597b1c080f123eafb0f3130f153 *src/fastICA-win.def
-6bba5c044b6e2bd8425223f5f2e39b8b *src/ica.c
+b43963bc7b33feb2b7d2364ed7c9e35f *src/ica.c
 03b612d8ff2a470ae415f68ea2e55afa *tests/one-component.R

@@ -1,3 +1,4 @@
+#define USE_FC_LEN_T 1
 #include <stddef.h>
 #include <R.h>
 #include <math.h>
@@ -108,7 +109,7 @@ svd_JM (double *mat, int *n, int *p, double *u, double *d, double *v)
 
     lwork = ilwork;
     F77_CALL (dgesdd) (&jobz, n, p, mat1, n, d, u1, n, v1, p, work,
-		       &lwork, iwork, &info);
+		       &lwork, iwork, &info FCONE);
 
     transpose_mat_JM (u1, n, n, u);
     transpose_mat_JM (v1, p, p, v);
@@ -176,7 +177,7 @@ mmult_JM (double *A, int n, int p, double *B, int q, int r, double *C)
 	K = p;
 	N = r;
 	F77_CALL (dgemm) (&transA, &transB, &N, &M, &K, &alpha, B, &N,
-			  A, &K, &beta, C, &N);
+			  A, &K, &beta, C, &N FCONE FCONE);
     }
 }
 
