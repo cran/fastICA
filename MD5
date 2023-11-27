@@ -1,4 +1,4 @@
-e1c4e23d7f8496dee55271187b514dd6 *DESCRIPTION
+8b3fab4cc1a2ff82380027d7ddd9a083 *DESCRIPTION
 42f8cf9076b983c5611fc628f614a114 *NAMESPACE
 066745157170b756421854be7fbabb10 *R/fastICA.R
 40621dbca246a248256ae059e627a613 *inst/HISTORY
@@ -8,5 +8,5 @@ e2e9a06c7266d7de120f4644c0c07cdf *man/fastICA.Rd
 e4cfec0c6d0723b8f7f70436baeae932 *man/ica.R.par.Rd
 2a6f9e9e044a78154d3cfda5936d6f48 *src/Makevars
 ec2c3597b1c080f123eafb0f3130f153 *src/fastICA-win.def
-b43963bc7b33feb2b7d2364ed7c9e35f *src/ica.c
+4e5504ade06ff900f08a13093a0ac566 *src/ica.c
 03b612d8ff2a470ae415f68ea2e55afa *tests/one-component.R

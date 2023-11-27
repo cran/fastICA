@@ -1,6 +1,6 @@
 Package: fastICA
-Version: 1.2-3
-Date: 2021-09-25
+Version: 1.2-4
+Date: 2023-11-27
 Title: FastICA Algorithms to Perform ICA and Projection Pursuit
 Author: J L Marchini, C Heaton and B D Ripley <ripley@stats.ox.ac.uk>
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
@@ -10,6 +10,6 @@ Description: Implementation of FastICA algorithm to perform Independent
         Component Analysis (ICA) and Projection Pursuit.
 License: GPL-2 | GPL-3
 NeedsCompilation: yes
-Packaged: 2021-09-25 16:02:33 UTC; ripley
+Packaged: 2023-11-27 08:10:53 UTC; ripley
 Repository: CRAN
-Date/Publication: 2021-09-25 16:07:40 UTC
+Date/Publication: 2023-11-27 08:34:50 UTC

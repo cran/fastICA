@@ -97,7 +97,7 @@ svd_JM (double *mat, int *n, int *p, double *u, double *d, double *v)
     b = 4 * mm * mm + 4 * mm;
     ilwork = 3 * mm * mm + max_JM(&a, &b);
     if (ilwork > INT_MAX)
-	error("svd on %d x %d exceeds Fortran indexing limits");
+	error("svd on %lu x %lu exceeds Fortran indexing limits", nn, pp);
 
     work = Calloc (ilwork, double);
     iwork = Calloc (iwork_size, int);
