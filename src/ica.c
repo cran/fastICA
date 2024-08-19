@@ -99,11 +99,11 @@ svd_JM (double *mat, int *n, int *p, double *u, double *d, double *v)
     if (ilwork > INT_MAX)
 	error("svd on %lu x %lu exceeds Fortran indexing limits", nn, pp);
 
-    work = Calloc (ilwork, double);
-    iwork = Calloc (iwork_size, int);
-    mat1 = Calloc (nn * pp, double);
-    u1 = Calloc (nn * nn, double);
-    v1 = Calloc (pp * pp, double);
+    work = R_Calloc (ilwork, double);
+    iwork = R_Calloc (iwork_size, int);
+    mat1 = R_Calloc (nn * pp, double);
+    u1 = R_Calloc (nn * nn, double);
+    v1 = R_Calloc (pp * pp, double);
 
     transpose_mat_JM (mat, n, p, mat1);
 
@@ -114,11 +114,11 @@ svd_JM (double *mat, int *n, int *p, double *u, double *d, double *v)
     transpose_mat_JM (u1, n, n, u);
     transpose_mat_JM (v1, p, p, v);
 
-    Free (mat1);
-    Free (u1);
-    Free (v1);
-    Free (work);
-    Free (iwork);
+    R_Free (mat1);
+    R_Free (u1);
+    R_Free (v1);
+    R_Free (work);
+    R_Free (iwork);
 }
 
 
@@ -190,10 +190,10 @@ orthog_mat_JM (double *mat, int e, double *orthog)
 	size_t ee = e;
 
 
-	u = Calloc (ee * ee, double);
-	d = Calloc (ee, double);
-	v = Calloc (ee * ee, double);
-	temp = Calloc (ee * ee, double);
+	u = R_Calloc (ee * ee, double);
+	d = R_Calloc (ee, double);
+	v = R_Calloc (ee * ee, double);
+	temp = R_Calloc (ee * ee, double);
 
 	svd_JM (mat, &e, &e, u, d, v);
 	for (i = 0; i < e; i++) {
@@ -206,10 +206,10 @@ orthog_mat_JM (double *mat, int e, double *orthog)
 	mmult_JM (u, e, e, mat, e, e, orthog);
 
 
-	Free (u);
-	Free (v);
-	Free (d);
-	Free (temp);
+	R_Free (u);
+	R_Free (v);
+	R_Free (d);
+	R_Free (temp);
 
 }
 
@@ -229,12 +229,12 @@ Symm_logcosh_JM (double *w_init, int e, double *data, int f, int p, double alpha
 	else {
 		size_t es = (size_t)e * (size_t)e;
 		size_t ep = (size_t)e * (size_t)p;
-		mat1 = Calloc (ep, double);
-		mat2 = Calloc (ep, double);
-		mat3 = Calloc (es, double);
-		mat4 = Calloc (es, double);
-		mat5 = Calloc (es, double);
-		mat6 = Calloc (es, double);
+		mat1 = R_Calloc (ep, double);
+		mat2 = R_Calloc (ep, double);
+		mat3 = R_Calloc (es, double);
+		mat4 = R_Calloc (es, double);
+		mat5 = R_Calloc (es, double);
+		mat6 = R_Calloc (es, double);
 
 		mmult_JM (w_init, e, e, data, e, p, mat1);
 
@@ -284,12 +284,12 @@ Symm_logcosh_JM (double *w_init, int e, double *data, int f, int p, double alpha
 			}
 		}
 		*Tol = mean;
-		Free (mat1);
-		Free (mat2);
-		Free (mat3);
-		Free (mat4);
-		Free (mat5);
-		Free (mat6);
+		R_Free (mat1);
+		R_Free (mat2);
+		R_Free (mat3);
+		R_Free (mat4);
+		R_Free (mat5);
+		R_Free (mat6);
 	}
 }
 
@@ -306,10 +306,10 @@ Def_logcosh_JM (double *w_init, int e, double *data, int f, int p, double alpha,
 		error ("error in Def_logcosh_JM, dims dont match");
 	}
 	else {
-		mat1 = Calloc (p, double);
-		mat2 = Calloc ((size_t)e * (size_t)p, double);
-		mat3 = Calloc (e, double);
-		mat4 = Calloc (e, double);
+		mat1 = R_Calloc (p, double);
+		mat2 = R_Calloc ((size_t)e * (size_t)p, double);
+		mat3 = R_Calloc (e, double);
+		mat4 = R_Calloc (e, double);
 
 		mmult_JM (w_init, 1, e, data, e, p, mat1);
 
@@ -340,10 +340,10 @@ Def_logcosh_JM (double *w_init, int e, double *data, int f, int p, double alpha,
 			w_final[i] = (mat3[i] - mat4[i]);
 		}
 
-		Free (mat1);
-		Free (mat2);
-		Free (mat3);
-		Free (mat4);
+		R_Free (mat1);
+		R_Free (mat2);
+		R_Free (mat3);
+		R_Free (mat4);
 
 	}
 }
@@ -363,13 +363,13 @@ if (e != f) {
 else {
     size_t ep = (size_t)e * (size_t)p;
     size_t ee = (size_t)e * (size_t)e;
-    mat0 = Calloc (ep, double);
-    mat1 = Calloc (ep, double);
-    mat2 = Calloc (ep, double);
-    mat3 = Calloc (ee, double);
-    mat4 = Calloc (ee, double);
-    mat5 = Calloc (ee, double);
-    mat6 = Calloc (ee, double);
+    mat0 = R_Calloc (ep, double);
+    mat1 = R_Calloc (ep, double);
+    mat2 = R_Calloc (ep, double);
+    mat3 = R_Calloc (ee, double);
+    mat4 = R_Calloc (ee, double);
+    mat5 = R_Calloc (ee, double);
+    mat6 = R_Calloc (ee, double);
     mmult_JM (w_init, e, e, data, e, p, mat1);
     for (i = 0; i < e; i++) {
 	for (j = 0; j < p; j++) {
@@ -418,13 +418,13 @@ else {
 	}
     }
     *Tol = mean;
-    Free (mat1);
-    Free (mat2);
-    Free (mat3);
-    Free (mat4);
-    Free (mat5);
-    Free (mat0);
-    Free (mat6);
+    R_Free (mat1);
+    R_Free (mat2);
+    R_Free (mat3);
+    R_Free (mat4);
+    R_Free (mat5);
+    R_Free (mat0);
+    R_Free (mat6);
 }
 }
 
@@ -441,10 +441,10 @@ if (e != f) {
     error ("error in Def_exp_JM, dims dont match");
 }
 else {
-    mat1 = Calloc (p, double);
-    mat2 = Calloc ((size_t)e * (size_t)p, double);
-    mat3 = Calloc (e, double);
-    mat4 = Calloc (e, double);
+    mat1 = R_Calloc (p, double);
+    mat2 = R_Calloc ((size_t)e * (size_t)p, double);
+    mat3 = R_Calloc (e, double);
+    mat4 = R_Calloc (e, double);
 
     mmult_JM (w_init, 1, e, data, e, p, mat1);
 
@@ -479,10 +479,10 @@ else {
     }
 
 
-    Free (mat1);
-    Free (mat2);
-    Free (mat3);
-    Free (mat4);
+    R_Free (mat1);
+    R_Free (mat2);
+    R_Free (mat3);
+    R_Free (mat4);
 
 }
 }
@@ -539,8 +539,8 @@ calc_K_JM(double *x, int *n, int *p, double *K)
     double *xxt, *xt, *u, *d, *v, *temp1, *temp2;
     size_t nn = *n, pp = *p;
 
-    xxt = Calloc (nn * nn, double);
-    xt = Calloc (nn * pp, double);
+    xxt = R_Calloc (nn * nn, double);
+    xt = R_Calloc (nn * pp, double);
 
     /* transpose x matrix */
     transpose_mat_JM (x, n, p, xt);
@@ -552,18 +552,18 @@ calc_K_JM(double *x, int *n, int *p, double *K)
 	    xxt[*n * i + j] = xxt[*n * i + j] / *p;
 	}
     }
-    Free (xt);
+    R_Free (xt);
 
     /* calculate svd decomposition of xxt */
-    u = Calloc (nn * nn, double);
-    d = Calloc (nn, double);
-    v = Calloc (nn * nn, double);
+    u = R_Calloc (nn * nn, double);
+    d = R_Calloc (nn, double);
+    v = R_Calloc (nn * nn, double);
 
     svd_JM (xxt, n, n, u, d, v);
 
     /* calculate K matrix*/
-    temp1 = Calloc (nn * nn, double);
-    temp2 = Calloc (nn * nn, double);
+    temp1 = R_Calloc (nn * nn, double);
+    temp2 = R_Calloc (nn * nn, double);
 
     for (i = 0; i < *n; i++) {
 	temp1[*n * i + i] = 1 / sqrt (d[i]);
@@ -572,12 +572,12 @@ calc_K_JM(double *x, int *n, int *p, double *K)
     transpose_mat_JM (u, n, n, temp2);
     mmult_JM (temp1, *n, *n, temp2, *n, *n, K);
 
-    Free (temp1);
-    Free (temp2);
-    Free(xxt);
-    Free(u);
-    Free(d);
-    Free(v);
+    R_Free (temp1);
+    R_Free (temp2);
+    R_Free(xxt);
+    R_Free(u);
+    R_Free(d);
+    R_Free(v);
 }
 
 static void
@@ -589,28 +589,28 @@ calc_A_JM(double *w, double *k, double *data,
     double *um, *umt, *umumt, *uu, *dd, *vv, *temp1, *temp2, *temp3;
     size_t nn = *n, ee = *e;
 
-    um = Calloc (ee * nn, double);
-    umt = Calloc (nn * ee, double);
+    um = R_Calloc (ee * nn, double);
+    umt = R_Calloc (nn * ee, double);
 
     mmult_JM (w, *e, *e, k, *e, *n, um);
     mmult_JM (um, *e, *n, data, *n, *p, unmixed_data);
     transpose_mat_JM (um, e, n, umt);
 
-    umumt = Calloc (ee * ee, double);
+    umumt = R_Calloc (ee * ee, double);
     mmult_JM (um, *e, *n, umt, *n, *e, umumt);
 
-    uu = Calloc (ee * ee, double);
-    dd = Calloc (ee, double);
-    vv = Calloc (ee * ee, double);
+    uu = R_Calloc (ee * ee, double);
+    dd = R_Calloc (ee, double);
+    vv = R_Calloc (ee * ee, double);
     svd_JM (umumt, e, e, uu, dd, vv);
 
-    temp1 = Calloc (ee * ee, double);
+    temp1 = R_Calloc (ee * ee, double);
     for (i = 0; i < *e; i++) {
 	temp1[*e * i + i] = 1 / (dd[i]);
     }
 
-    temp2 = Calloc (ee * ee, double);
-    temp3 = Calloc (ee * ee, double);
+    temp2 = R_Calloc (ee * ee, double);
+    temp3 = R_Calloc (ee * ee, double);
     transpose_mat_JM (vv, e, e, temp3);
     mmult_JM (temp3, *e, *e, temp1, *e, *e, temp2);
     transpose_mat_JM (uu, e, e, vv);
@@ -618,15 +618,15 @@ calc_A_JM(double *w, double *k, double *data,
 
     mmult_JM (umt, *n, *e, uu, *e, *e, A);
 
-    Free(um);
-    Free(umt);
-    Free(umumt);
-    Free(uu);
-    Free(dd);
-    Free(vv);
-    Free(temp1);
-    Free(temp2);
-    Free(temp3);
+    R_Free(um);
+    R_Free(umt);
+    R_Free(umumt);
+    R_Free(uu);
+    R_Free(dd);
+    R_Free(vv);
+    R_Free(temp1);
+    R_Free(temp2);
+    R_Free(temp3);
 
 }
 
@@ -646,7 +646,7 @@ icainc_JM (double *data_matrix, double *w_matrix, int *nn, int *pp, int *ee,
     double *data1, *Kmat, *temp1, *w_init;
 
     /* make a copy of the data matrix*/
-    data1 = Calloc (n * p, double);
+    data1 = R_Calloc (n * p, double);
     for (i = 0; i < n; i++) {
 	for (j = 0; j < p; j++) {
 	    data_pre[i * p + j] = data_matrix[i * p + j];
@@ -668,7 +668,7 @@ icainc_JM (double *data_matrix, double *w_matrix, int *nn, int *pp, int *ee,
 
     /* calculate pre-whitening matrix Kmat */
     if (*verbose == 1)	Rprintf ("Whitening\n");
-    Kmat = Calloc (n * n, double);
+    Kmat = R_Calloc (n * n, double);
     calc_K_JM(data_pre, nn, pp, Kmat);
 
     /* pre-whiten data and reduce dimension from size n to size e */
@@ -681,8 +681,8 @@ icainc_JM (double *data_matrix, double *w_matrix, int *nn, int *pp, int *ee,
     mmult_JM (Kmat1, e, n, data_pre, n, p, data1);
 
     /* calculate initial (orthogonal) unmixing matrix w */
-    temp1 = Calloc (e * e, double);
-    w_init = Calloc (e * e, double);
+    temp1 = R_Calloc (e * e, double);
+    w_init = R_Calloc (e * e, double);
     for (i = 0; i < e; i++) {
 	for (j = 0; j < e; j++) {
 	    temp1[i * e + j] = w_matrix[i * e + j];
@@ -728,8 +728,8 @@ icainc_JM (double *data_matrix, double *w_matrix, int *nn, int *pp, int *ee,
     }
 
     if (*defflag == 1) {
-	temp_w1 = Calloc (e, double);
-	temp_w2 = Calloc (e, double);
+	temp_w1 = R_Calloc (e, double);
+	temp_w2 = R_Calloc (e, double);
 
 	if (*funflag == 1) {
 	    if (*verbose == 1)
@@ -805,17 +805,17 @@ icainc_JM (double *data_matrix, double *w_matrix, int *nn, int *pp, int *ee,
 		w_final[i * e + j] = w_init[i * e + j];
 	    }
 	}
-	Free (temp_w1);
-	Free (temp_w2);
+	R_Free (temp_w1);
+	R_Free (temp_w2);
     }
 
     /* calculate mixing matrix ansa */
     calc_A_JM(w_final, Kmat1, data_pre, ee, nn, pp, ansa, ansx2);
 
-    Free (data1);
-    Free (Kmat);
-    Free (temp1);
-    Free (w_init);
+    R_Free (data1);
+    R_Free (Kmat);
+    R_Free (temp1);
+    R_Free (w_init);
 }
 
 #include <R_ext/Rdynload.h>
