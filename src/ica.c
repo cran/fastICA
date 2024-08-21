@@ -96,8 +96,11 @@ svd_JM (double *mat, int *n, int *p, double *u, double *d, double *v)
     a = max_JM(n,p);
     b = 4 * mm * mm + 4 * mm;
     ilwork = 3 * mm * mm + max_JM(&a, &b);
+    /* FIXME: Windows objected here are nm, pp are size_t, so long long
+       But they need to be less that int since passed as int*
+    */
     if (ilwork > INT_MAX)
-	error("svd on %lu x %lu exceeds Fortran indexing limits", nn, pp);
+	error("svd on %u x %u exceeds Fortran indexing limits", *n, *p);
 
     work = R_Calloc (ilwork, double);
     iwork = R_Calloc (iwork_size, int);
