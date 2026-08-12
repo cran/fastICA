@@ -161,9 +161,9 @@ plot(1:1000, a$S[, 2], type = "l", xlab = "", ylab = "")
 #           mixture of bivariate normal distributions
 #-----------------------------------------------------------
 
-if(require(MASS)){
-x <- mvrnorm(n = 1000, mu = c(0, 0), Sigma = matrix(c(10, 3, 3, 1), 2, 2))
-x1 <- mvrnorm(n = 1000, mu = c(-1, 2), Sigma = matrix(c(10, 3, 3, 1), 2, 2))
+if(length(data(OME, package="MASS"))){
+x <- MASS::mvrnorm(n = 1000, mu = c(0, 0), Sigma = matrix(c(10, 3, 3, 1), 2, 2))
+x1 <- MASS::mvrnorm(n = 1000, mu = c(-1, 2), Sigma = matrix(c(10, 3, 3, 1), 2, 2))
 X <- rbind(x, x1)
 
 a <- fastICA(X, 2, alg.typ = "deflation", fun = "logcosh", alpha = 1,
